@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 import io
 import sys
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 class TouzishijianSpider(scrapy.Spider):
@@ -59,7 +59,8 @@ class TouzishijianSpider(scrapy.Spider):
 			indus_name = indus_tag.xpath('./text()').extract_first()
 			indus_dict = {"indus_url": urljoin(self.burl, indus_url), "indus_name": indus_name}
 			indus_list.append(indus_dict)
-		invest_intro = sel.xpath('//div[@id="desc"]/p/text()').extract_first()
+		invest_intro_list = sel.xpath('//div[@id="desc"]/p/text()').extract()
+		invest_intro = ''.join(invest_intro_list)
 		item['tz_sj_title'] = tz_sj_title
 		item['rz_comp_url'] = rz_comp_url
 		item['rz_comp_name'] = rz_comp_name

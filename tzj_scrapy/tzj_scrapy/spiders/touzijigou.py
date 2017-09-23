@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 import io
 import sys
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 class TouzishijianSpider(scrapy.Spider):
@@ -54,7 +54,8 @@ class TouzishijianSpider(scrapy.Spider):
 		tz_jg_invest_stage = li_tags[6].xpath('./text()').extract_first()
 
 		# 投资机构简介和联系方式
-		tz_jg_intro = sel.xpath('//*[@id="desc"]/p//text()').extract_first()
+		tz_jg_intro_list = sel.xpath('//*[@id="desc"]/p//text()').extract()
+		tz_jg_intro = ''.join(tz_jg_intro_list)
 		p_tags = sel.xpath('//*[@id="contact"]/p')
 		tz_jg_tel = ''
 		tz_jg_fax = ''
