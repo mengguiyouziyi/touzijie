@@ -6,6 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymysql
+from tzj_scrapy.items import TzsjItem, TzjgItem
 
 
 class MysqlPipeline(object):
@@ -19,19 +20,24 @@ class MysqlPipeline(object):
 		self.cursor = self.conn.cursor()
 
 	def process_item(self, item, spider):
-		if spider.name == 'touzishijian':
-		# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
+		# if spider.name == 'touzishijian':
+		if isinstance(item, TzsjItem):
+			# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
 			sql = """insert into touzijie_touzishijian (detail_url, tz_sj_title, rz_comp_url, rz_comp_name, tz_jg_list, currency, money, invest_loop, invest_time, indus_list, invest_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [
-			item['detail_url'], item['tz_sj_title'], item['rz_comp_url'], item['rz_comp_name'], item['tz_jg_list'],
-			item['currency'], item['money'], item['loop'], item['invest_time'], item['indus_list'],
-			item['invest_intro']]
+				item['detail_url'], item['tz_sj_title'], item['rz_comp_url'], item['rz_comp_name'], item['tz_jg_list'],
+				item['currency'], item['money'], item['loop'], item['invest_time'], item['indus_list'],
+				item['invest_intro']]
 			self.cursor.execute(sql, args)
 			self.conn.commit()
 			print(item['detail_url'])
-		elif spider.name == 'detail':
-			sql = """update weixin_base_info set feature=%s WHERE pub_name=%s"""
-			args = (item["feature"], item["pub_name"])
-			self.cursor.execute(sql, args=args)
+		elif isinstance(item, TzjgItem):
+			sql = """insert into touzijie_touzijigou (tz_jg_detail,tz_jg_logo,tz_jg_name,tz_jg_short,tz_jg_en,capital_type,tz_jg_property,tz_jg_regist_addr,tz_jg_create_time,tz_jg_headquarter,tz_jg_site,tz_jg_invest_stage,tz_jg_intro,tz_jg_tel,tz_jg_fax,tz_jg_addr,tz_jg_postcode,team_per_list,tz_sj_url,tz_sj_list,mz_sj_url,mz_sj_list) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			args = [item['tz_jg_detail'], item['tz_jg_logo'], item['tz_jg_name'], item['tz_jg_short'], item['tz_jg_en'], item['capital_type'],
+			        item['tz_jg_property'], item['tz_jg_regist_addr'], item['tz_jg_create_time'],
+			        item['tz_jg_headquarter'], item['tz_jg_site'], item['tz_jg_invest_stage'], item['tz_jg_intro'],
+			        item['tz_jg_tel'], item['tz_jg_fax'], item['tz_jg_addr'], item['tz_jg_postcode'],
+			        item['team_per_list'], item['tz_sj_url'], item['tz_sj_list'], item['mz_sj_url'], item['mz_sj_list']]
+			self.cursor.execute(sql, args)
 			self.conn.commit()
-			print(str(item['pub_name']))
+			print(item['tz_jg_detail'])

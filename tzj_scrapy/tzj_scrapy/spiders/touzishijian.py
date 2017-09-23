@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.selector import Selector
-from tzj_scrapy.items import TzjScrapyItem
+from tzj_scrapy.items import TzsjItem
 # from tzj_scrapy.utils.get1 import get_key
 from urllib.parse import urljoin
 import io
@@ -33,7 +33,7 @@ class TouzishijianSpider(scrapy.Spider):
 			yield scrapy.Request(nurl, callback=self.parse)
 
 	def get_detail(self, response):
-		item = TzjScrapyItem()
+		item = TzsjItem()
 		item['detail_url'] = response.url
 		sel = Selector(text=response.text)
 		tz_sj_title = sel.xpath('//div[@class="info"]/h1/text()').extract_first()

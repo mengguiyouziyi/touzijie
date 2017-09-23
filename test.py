@@ -1,39 +1,6 @@
-import pymysql
+"""
+		item['tz_jg_logo'], item['tz_jg_name'], item['tz_jg_short'], item['tz_jg_en'], item['capital_type'], item['tz_jg_property'], item['tz_jg_regist_addr'], item['tz_jg_create_time'], item['tz_jg_headquarter'], item['tz_jg_site'], item['tz_jg_invest_stage'], item['tz_jg_intro'], item['tz_jg_tel'], item['tz_jg_fax'], item['tz_jg_addr'], item['tz_jg_postcode'], item['team_per_list'], item['tz_sj_url'], item['tz_sj_list'], item['mz_sj_url'], item['mz_sj_list']
+    """
 
-conn = pymysql.connect(host='etl2.innotree.org', port=3308, user='spider', password='spider', db='spider',
-                       charset='utf8'
-                       , cursorclass=pymysql.cursors.SSCursor
-                       )
-cursor = conn.cursor()
 
-sql = """insert into touzijie_touzishijian_copy(detail_url, tz_sj_title, rz_comp_url, rz_comp_name, tz_jg_list, currency,money,abc,invest_time,indus_list,invest_intro) VALUES ("111","22","3","不公开的投资者",
-           # "[{'tz_jg_url': 'http://zdb.pedaily.cn/company/show12278/', 'tz_jg_name': '不公开的投资者'}, {'tz_jg_url': 'http://zdb.pedaily.cn/company/show9814/', 'tz_jg_name': '高榕资本'}]",
-           'aaa',
-           "RMB",
-           "6千万",
-           "A",
-           "2017年09月22日",
-           # "[{'indus_url': 'http://zdb.pedaily.cn/inv/h3362', 'indus_name': '金融'}]",
-           'bbb',
-           "2017年9月22日，高榕资本、不公开的投资者投资上海雷励投资管理有限公司6000万人民币。")"""
 
-context = ("111",
-           "22",
-           "3",
-           "不公开的投资者",
-           # "[{'tz_jg_url': 'http://zdb.pedaily.cn/company/show12278/', 'tz_jg_name': '不公开的投资者'}, {'tz_jg_url': 'http://zdb.pedaily.cn/company/show9814/', 'tz_jg_name': '高榕资本'}]",
-           'aaa',
-           "RMB",
-           "6千万",
-           "A",
-           "2017年09月22日",
-           # "[{'indus_url': 'http://zdb.pedaily.cn/inv/h3362', 'indus_name': '金融'}]",
-           'bbb',
-           "2017年9月22日，高榕资本、不公开的投资者投资上海雷励投资管理有限公司6000万人民币。")
-
-try:
-	cursor.execute(sql)
-	conn.commit()
-finally:
-	cursor.close()
-	conn.close()
