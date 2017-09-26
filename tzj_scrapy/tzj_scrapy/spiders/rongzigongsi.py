@@ -60,7 +60,7 @@ class TouzishijianSpider(scrapy.Spider):
 		rz_gs_tel = ''
 		rz_gs_postcode = ''
 		rz_gs_addr = ''
-		for text, someone in zip(text_tags, span_tags):
+		for text, someone in zip(span_tags, text_tags):
 			if '传 真' in text:
 				rz_gs_fax = someone
 			elif '联系电话' in text:
@@ -71,7 +71,7 @@ class TouzishijianSpider(scrapy.Spider):
 				rz_gs_addr = someone
 
 		# 融资事件
-		rz_sj_tag = sel.xpath('//div[@id="inv"]')
+		rz_sj_tag = sel.xpath('//div[@id="inv-box"]')
 		rz_sj_li_tags = rz_sj_tag.xpath('./div/ul/li[position()>1]')
 		rz_sj_list = []
 		for rz_sj_li_tag in rz_sj_li_tags:
