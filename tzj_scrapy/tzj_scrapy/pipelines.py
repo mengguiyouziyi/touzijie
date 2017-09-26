@@ -54,11 +54,11 @@ class MysqlPipeline(object):
 			print(item['rz_gs_detail'])
 		if isinstance(item, MzsjItem):
 			# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
-			sql = """insert into touzijie_touzishijian (detail_url, tz_sj_title, rz_comp_url, rz_comp_name, tz_jg_list, currency, money, invest_loop, invest_time, indus_list, invest_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			sql = """insert into touzijie_touzishijian (mz_sj_detail,mz_sj_title,mz_fund_name,currency,mz_sj_create_time,mz_sj_state,tz_jg_detail,tz_jg_name,target_size,capital_type,mz_sj_money,prospectus_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [
-				item['detail_url'], item['tz_sj_title'], item['rz_comp_url'], item['rz_comp_name'], item['tz_jg_list'],
-				item['currency'], item['money'], item['loop'], item['invest_time'], item['indus_list'],
-				item['invest_intro']]
+				item['mz_sj_detail'], item['mz_sj_title'], item['mz_fund_name'], item['currency'],
+				item['mz_sj_create_time'], item['mz_sj_state'], item['tz_jg_detail'], item['tz_jg_name'],
+				item['target_size'], item['capital_type'], item['mz_sj_money'], item['prospectus_intro']]
 			self.cursor.execute(sql, args)
 			self.conn.commit()
-			print(item['detail_url'])
+			print(item['mz_sj_detail'])

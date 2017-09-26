@@ -37,47 +37,28 @@ class TouzishijianSpider(scrapy.Spider):
 		info_tag = sel.xpath('//div[@class="info"]')
 		mz_sj_title = info_tag.xpath('./h1/text()').extract_first()
 		li_tags = info_tag.xpath('./ul/li')
+		mz_fund_name = li_tags[0].xpath('./text()').extract_first()
+		currency = li_tags[1].xpath('./text()').extract_first()
+		mz_sj_create_time = li_tags[3].xpath('./text()').extract_first()
+		mz_sj_state = li_tags[4].xpath('./text()').extract_first()
+		tz_jg_detail = li_tags[5].xpath('./a/@href').extract_first()
+		tz_jg_name = li_tags[5].xpath('./a/text()').extract_first()
+		target_size = li_tags[6].xpath('./text()').extract_first()
+		capital_type = li_tags[7].xpath('./text()').extract_first()
+		mz_sj_money = li_tags[8].xpath('./text()').extract_first()
 
-		for li_tag in li_tags:
-			if '管理机构' in li_tag.xpath('./span/text()').extract_first():
-				tz_jg_detail = li_tag.xpath('./a/@href').extract_first()
-				tz_jg_name = li_tag.xpath('./a/text()').extract_first()
-			else:
-				pass
-
-		rz_comp_url_half = sel.xpath('//li[@class="full"][1]/a/@href').extract_first()
-		rz_comp_url = urljoin(self.burl, rz_comp_url_half)
-		rz_comp_name = sel.xpath('//li[@class="full"][1]/a/text()').extract_first()
-
-		tz_jg_tags = sel.xpath('//li[@class="full"]/a[starts-with(@href, "/company")]')
-		tz_jg_list = []
-		for tz_jg_tag in tz_jg_tags:
-			tz_jg_url = tz_jg_tag.xpath('./@href').extract_first()
-			tz_jg_name = tz_jg_tag.xpath('./text()').extract_first()
-			tz_jg_dict = {"tz_jg_url": urljoin(self.burl, tz_jg_url), "tz_jg_name": tz_jg_name}
-			tz_jg_list.append(tz_jg_dict)
-		currency = sel.xpath('//span[@class="d"]/text()').extract_first()
-		money = sel.xpath('//span[@class="m"]/text()').extract_first()
-		loop = sel.xpath('//span[@class="b round"]/text()').extract_first()
-		invest_time = sel.xpath('//div[@class="info"]//li[5]/text()').extract_first()
-		indus_tags = sel.xpath('//div[@class="info"]//li[6]/a')
-		indus_list = []
-		for indus_tag in indus_tags:
-			indus_url = indus_tag.xpath('./@href').extract_first()
-			indus_name = indus_tag.xpath('./text()').extract_first()
-			indus_dict = {"indus_url": urljoin(self.burl, indus_url), "indus_name": indus_name}
-			indus_list.append(indus_dict)
 		invest_intro_list = sel.xpath('//div[@id="desc"]/p/text()').extract()
 		invest_intro = ''.join(invest_intro_list)
-		item['tz_sj_title'] = tz_sj_title
-		item['rz_comp_url'] = rz_comp_url
-		item['rz_comp_name'] = rz_comp_name
-		item['tz_jg_list'] = str(tz_jg_list)
+		item['mz_sj_title'] = mz_sj_title
+		item['mz_fund_name'] = mz_fund_name
 		item['currency'] = currency
-		item['money'] = money
-		item['loop'] = loop
-		item['invest_time'] = invest_time
-		item['indus_list'] = str(indus_list)
-		item['invest_intro'] = invest_intro
+		item['mz_sj_create_time'] = mz_sj_create_time
+		item['mz_sj_state'] = mz_sj_state
+		item['tz_jg_detail'] = tz_jg_detail
+		item['tz_jg_name'] = tz_jg_name
+		item['target_size'] = target_size
+		item['capital_type'] = capital_type
+		item['mz_sj_money'] = mz_sj_money
+		item['prospectus_intro'] = invest_intro
 
 		yield item
