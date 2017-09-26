@@ -43,7 +43,7 @@ class MysqlPipeline(object):
 			self.conn.commit()
 			print(item['tz_jg_detail'])
 		elif isinstance(item, RzgsItem):
-			sql = """insert into touzijie_touzijigou (tz_jg_detail,tz_jg_logo,tz_jg_name,tz_jg_short,tz_jg_en,capital_type,tz_jg_property,tz_jg_regist_addr,tz_jg_create_time,tz_jg_headquarter,tz_jg_intro,tz_jg_tel,tz_jg_fax,tz_jg_addr,tz_jg_postcode,tz_sj_list,mz_sj_url) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			sql = """insert into touzijie_rongzigongsi (tz_jg_detail,tz_jg_logo,tz_jg_name,tz_jg_short,tz_jg_en,capital_type,tz_jg_property,tz_jg_regist_addr,tz_jg_create_time,tz_jg_headquarter,tz_jg_intro,tz_jg_tel,tz_jg_fax,tz_jg_addr,tz_jg_postcode,tz_sj_list,mz_sj_url) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [item['rz_gs_detail'], item['rz_gs_logo'], item['rz_gs_name'], item['rz_gs_short'], item['rz_gs_en'],
 			        item['rz_gs_headquarter'], item['rz_gs_regist_addr'], item['rz_gs_create_time'],
 			        item['rz_gs_industry'], item['rz_gs_site'], item['rz_gs_intro'], item['rz_gs_fax'],
