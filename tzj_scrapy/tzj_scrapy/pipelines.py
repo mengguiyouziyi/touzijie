@@ -6,21 +6,16 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymysql
-from tzj_scrapy.items import TzsjItem, TzjgItem, RzgsItem, MzsjItem
+from tzj_scrapy.items import TzsjItem, TzjgItem, RzgsItem, MzsjItem, SssjItem, BgsjItem
 
 
 class MysqlPipeline(object):
-	"""
-	本机 localhost；公司 etl2.innotree.org；服务器 etl1.innotree.org
-	"""
-
 	def __init__(self):
 		self.conn = pymysql.connect(host='etl2.innotree.org', port=3308, user='spider', password='spider', db='spider',
 		                            charset='utf8', cursorclass=pymysql.cursors.DictCursor)
 		self.cursor = self.conn.cursor()
 
 	def process_item(self, item, spider):
-		# if spider.name == 'touzishijian':
 		if isinstance(item, TzsjItem):
 			# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
 			sql = """insert into touzijie_touzishijian (detail_url, tz_sj_title, rz_comp_url, rz_comp_name, tz_jg_list, currency, money, invest_loop, invest_time, indus_list, invest_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
@@ -53,8 +48,7 @@ class MysqlPipeline(object):
 			self.conn.commit()
 			print(item['rz_gs_detail'])
 		if isinstance(item, MzsjItem):
-			# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
-			sql = """insert into touzijie_touzishijian (mz_sj_detail,mz_sj_title,mz_fund_name,currency,mz_sj_create_time,mz_sj_state,tz_jg_detail,tz_jg_name,target_size,capital_type,mz_sj_money,prospectus_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			sql = """insert into touzijie_muzishijian (mz_sj_detail,mz_sj_title,mz_fund_name,currency,mz_sj_create_time,mz_sj_state,tz_jg_detail,tz_jg_name,target_size,capital_type,mz_sj_money,prospectus_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [
 				item['mz_sj_detail'], item['mz_sj_title'], item['mz_fund_name'], item['currency'],
 				item['mz_sj_create_time'], item['mz_sj_state'], item['tz_jg_detail'], item['tz_jg_name'],
@@ -62,3 +56,26 @@ class MysqlPipeline(object):
 			self.cursor.execute(sql, args)
 			self.conn.commit()
 			print(item['mz_sj_detail'])
+		if isinstance(item, SssjItem):
+			sql = """insert into touzijie_shangshishijian (ss_sj_detail,ss_sj_title,rz_gs_detail,rz_gs_name,rz_gs_industry_url,rz_gs_industry,rz_gs_ipo_time,tz_jg_name,rz_gs_issue_price,rz_gs_ipo_addr_url,rz_gs_ipo_addr,rz_gs_sirculation,rz_gs_stock_code,is_support) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			args = [
+				item['ss_sj_detail'], item['ss_sj_title'], item['rz_gs_detail'], item['rz_gs_name'],
+				item['rz_gs_industry_url'], item['rz_gs_industry'], item['rz_gs_ipo_time'], item['tz_jg_name'],
+				item['rz_gs_issue_price'], item['rz_gs_ipo_addr_url'], item['rz_gs_ipo_addr'],
+				item['rz_gs_sirculation'], item['rz_gs_stock_code'],
+				item['is_support']
+			]
+			self.cursor.execute(sql, args)
+			self.conn.commit()
+			print(item['ss_sj_detail'])
+		if isinstance(item, BgsjItem):
+			sql = """insert into touzijie_binggoushijian (bg_sj_detail,bg_sj_title,bg_gs_detail,bg_gs_name,bei_bg_gs_detail,bei_bg_gs_name,bg_state,industry_url,industry,equity_concern,bg_start_time,bg_finish_time,is_support,bg_sj_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			args = [
+				item['bg_sj_detail'], item['bg_sj_title'], item['bg_gs_detail'], item['bg_gs_name'],
+				item['bei_bg_gs_detail'], item['bei_bg_gs_name'], item['bg_state'], item['industry_url'],
+				item['industry'], item['equity_concern'], item['bg_start_time'], item['bg_finish_time'],
+				item['is_support'], item['bg_sj_intro']
+			]
+			self.cursor.execute(sql, args)
+			self.conn.commit()
+			print(item['bg_sj_detail'])

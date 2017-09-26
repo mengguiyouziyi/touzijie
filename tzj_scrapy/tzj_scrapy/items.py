@@ -68,20 +68,6 @@ class RzgsItem(scrapy.Item):
 
 
 class MzsjItem(scrapy.Item):
-	"""
-	item['mz_sj_detail'] = response.url
-	item['mz_sj_title'] = mz_sj_title
-	item['mz_fund_name'] = mz_fund_name
-	item['currency'] = currency
-	item['mz_sj_create_time'] = mz_sj_create_time
-	item['mz_sj_state'] = mz_sj_state
-	item['tz_jg_detail'] = tz_jg_detail
-	item['tz_jg_name'] = tz_jg_name
-	item['target_size'] = target_size
-	item['capital_type'] = capital_type
-	item['mz_sj_money'] = mz_sj_money
-	item['prospectus_intro'] = invest_intro
-	"""
 	mz_sj_detail = scrapy.Field()
 	mz_sj_title = scrapy.Field()
 	mz_fund_name = scrapy.Field()
@@ -94,3 +80,37 @@ class MzsjItem(scrapy.Item):
 	capital_type = scrapy.Field()
 	mz_sj_money = scrapy.Field()
 	prospectus_intro = scrapy.Field()
+
+
+class SssjItem(scrapy.Item):
+	ss_sj_detail = scrapy.Field()
+	ss_sj_title = scrapy.Field()
+	rz_gs_detail = scrapy.Field()
+	rz_gs_name = scrapy.Field()
+	rz_gs_industry_url = scrapy.Field()
+	rz_gs_industry = scrapy.Field()
+	rz_gs_ipo_time = scrapy.Field()
+	tz_jg_name = scrapy.Field()
+	rz_gs_issue_price = scrapy.Field()
+	rz_gs_ipo_addr_url = scrapy.Field()
+	rz_gs_ipo_addr = scrapy.Field()
+	rz_gs_sirculation = scrapy.Field()
+	rz_gs_stock_code = scrapy.Field()
+	is_support = scrapy.Field()
+
+
+class BgsjItem(scrapy.Item):
+	bg_sj_detail = scrapy.Field()
+	bg_sj_title = scrapy.Field()
+	bg_gs_detail = scrapy.Field()
+	bg_gs_name = scrapy.Field()
+	bei_bg_gs_detail = scrapy.Field()
+	bei_bg_gs_name = scrapy.Field()
+	bg_state = scrapy.Field()
+	industry_url = scrapy.Field()
+	industry = scrapy.Field()
+	equity_concern = scrapy.Field()
+	bg_start_time = scrapy.Field()
+	bg_finish_time = scrapy.Field()
+	is_support = scrapy.Field()
+	bg_sj_intro = scrapy.Field()
