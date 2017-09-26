@@ -112,7 +112,7 @@ class TouzishijianSpider(scrapy.Spider):
 		for mz_sj_li_tag in mz_sj_li_tags:
 			mz_fund_url_half = mz_sj_li_tag.xpath('./dl/dt[@class="fund"]/a/@href').extract_first()
 			mz_fund_url = urljoin(self.burl, mz_fund_url_half)
-			mz_fund_short = mz_sj_li_tag.xpath('./dl/dt[@class="fund"]/a/@href').extract_first()
+			mz_fund_short = mz_sj_li_tag.xpath('./dl/dt[@class="fund"]/a/text()').extract_first()
 			mz_sj_detail_half = mz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
 			mz_sj_detail = urljoin(self.burl, mz_sj_detail_half)
 			mz_sj_dict = {'mz_fund_url': mz_fund_url, 'mz_fund_short': mz_fund_short, 'mz_sj_detail': mz_sj_detail}

@@ -65,3 +65,17 @@ class RzgsItem(scrapy.Item):
 	rz_gs_postcode = scrapy.Field()
 	rz_gs_addr = scrapy.Field()
 	rz_sj_list = scrapy.Field()
+
+
+class MzsjItem(scrapy.Item):
+	detail_url = scrapy.Field()
+	tz_sj_title = scrapy.Field()
+	rz_comp_url = scrapy.Field()
+	rz_comp_name = scrapy.Field()
+	tz_jg_list = scrapy.Field()
+	currency = scrapy.Field()
+	money = scrapy.Field()
+	loop = scrapy.Field()
+	invest_time = scrapy.Field()
+	indus_list = scrapy.Field()
+	invest_intro = scrapy.Field()

@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymysql
-from tzj_scrapy.items import TzsjItem, TzjgItem, RzgsItem
+from tzj_scrapy.items import TzsjItem, TzjgItem, RzgsItem, MzsjItem
 
 
 class MysqlPipeline(object):
@@ -52,3 +52,13 @@ class MysqlPipeline(object):
 			self.cursor.execute(sql, args)
 			self.conn.commit()
 			print(item['rz_gs_detail'])
+		if isinstance(item, MzsjItem):
+			# sql = """insert into kuchuan_all(id, app_package, down, trend) VALUES(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE app_package=VALUES(app_package), down=VALUES(down), down=VALUES(trend)"""
+			sql = """insert into touzijie_touzishijian (detail_url, tz_sj_title, rz_comp_url, rz_comp_name, tz_jg_list, currency, money, invest_loop, invest_time, indus_list, invest_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			args = [
+				item['detail_url'], item['tz_sj_title'], item['rz_comp_url'], item['rz_comp_name'], item['tz_jg_list'],
+				item['currency'], item['money'], item['loop'], item['invest_time'], item['indus_list'],
+				item['invest_intro']]
+			self.cursor.execute(sql, args)
+			self.conn.commit()
+			print(item['detail_url'])
