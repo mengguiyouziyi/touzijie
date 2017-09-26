@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.selector import Selector
-from tzj_scrapy.items import TzjgItem
+from tzj_scrapy.items import RzgsItem
 # from tzj_scrapy.utils.get1 import get_key
 from urllib.parse import urljoin
 import io
@@ -31,7 +31,7 @@ class TouzishijianSpider(scrapy.Spider):
 			yield scrapy.Request(nurl, callback=self.parse)
 
 	def get_detail(self, response):
-		item = TzjgItem()
+		item = RzgsItem()
 		item['rz_gs_detail'] = response.url
 		sel = Selector(text=response.text)
 		# 融资公司logo

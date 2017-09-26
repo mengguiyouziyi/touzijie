@@ -49,24 +49,6 @@ class TzjgItem(scrapy.Item):
 
 
 class RzgsItem(scrapy.Item):
-	'''
-	item['rz_gs_detail'] = response.url
-	item['rz_gs_logo'] = rz_gs_logo
-	item['rz_gs_name'] = rz_gs_name
-	item['rz_gs_short'] = rz_gs_short
-	item['rz_gs_en'] = rz_gs_en
-	item['rz_gs_headquarter'] = rz_gs_headquarter
-	item['rz_gs_regist_addr'] = rz_gs_regist_addr
-	item['rz_gs_create_time'] = rz_gs_create_time
-	item['rz_gs_industry'] = rz_gs_industry
-	item['rz_gs_site'] = rz_gs_site
-	item['rz_gs_intro'] = rz_gs_intro
-	item['rz_gs_fax'] = rz_gs_fax
-	item['rz_gs_tel'] = rz_gs_tel
-	item['rz_gs_postcode'] = rz_gs_postcode
-	item['rz_gs_addr'] = rz_gs_addr
-	item['rz_sj_list'] = str(rz_sj_list)
-	'''
 	rz_gs_detail = scrapy.Field()
 	rz_gs_logo = scrapy.Field()
 	rz_gs_name = scrapy.Field()
