@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 import io
 import sys
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 class TouzishijianSpider(scrapy.Spider):
@@ -32,7 +32,7 @@ class TouzishijianSpider(scrapy.Spider):
 
 	def get_detail(self, response):
 		item = TzjgItem()
-		item['tz_jg_detail'] = response.url
+		item['rz_gs_detail'] = response.url
 		sel = Selector(text=response.text)
 		# 融资公司logo
 		rz_gs_logo = sel.xpath('//div[@class="img"]/img/@src').extract_first()
@@ -54,57 +54,51 @@ class TouzishijianSpider(scrapy.Spider):
 		# 融资公司简介和联系方式
 		rz_gs_intro_list = sel.xpath('//*[@id="desc"]/p//text()').extract()
 		rz_gs_intro = ''.join(rz_gs_intro_list)
-		p_tags = sel.xpath('//*[@id="contact"]/p/text()')
-
-		rz_gs_tel = ''
+		text_tags = sel.xpath('//*[@id="contact"]/p/text()').extract()
+		span_tags = sel.xpath('//*[@id="contact"]/p/span/text()').extract()
 		rz_gs_fax = ''
-		rz_gs_addr = ''
+		rz_gs_tel = ''
 		rz_gs_postcode = ''
-		for p_tag in p_tags:
-			text = p_tag.xpath('./span/text()').extract_first()
-			someone = p_tag.xpath('./text()').extract_first()
-			if '联系电话' in text:
-				tz_jg_tel = someone
-			elif '传 真' in text:
-				tz_jg_fax = someone
-			elif '地 址' in text:
-				tz_jg_addr = someone
-			elif '邮 编' in text:
-				tz_jg_postcode = someone
+		rz_gs_addr = ''
+		for text, someone in zip(text_tags, span_tags):
+			if '传 真' in text:
+				rz_gs_fax = someone
+			elif '联系电话' in text:
+				rz_gs_tel = someone
+			elif '邮政编码' in text:
+				rz_gs_postcode = someone
+			elif '详细地址' in text:
+				rz_gs_addr = someone
 
 		# 融资事件
-		tz_sj_tag = sel.xpath('//div[@id="inv-box"]')
-		tz_sj_url_half = tz_sj_tag.xpath('./h3/a/@href').extract_first()
-		tz_sj_url = urljoin(self.burl, tz_sj_url_half)
-		tz_sj_li_tags = tz_sj_tag.xpath('./div/ul/li[position()>1]')
-		tz_sj_list = []
-		for tz_sj_li_tag in tz_sj_li_tags:
+		rz_sj_tag = sel.xpath('//div[@id="inv"]')
+		rz_sj_li_tags = rz_sj_tag.xpath('./div/ul/li[position()>1]')
+		rz_sj_list = []
+		for rz_sj_li_tag in rz_sj_li_tags:
 			# invest_time = tz_sj_li_tag.xpath('./div/span/text()').extract_first()
-			rz_comp_url_half = tz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/@href').extract_first()
+			rz_comp_url_half = rz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/@href').extract_first()
 			rz_comp_url = urljoin(self.burl, rz_comp_url_half)
-			rz_comp_short = tz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/@href').extract_first()
-			tz_sj_detail = tz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
-			tz_sj_dict = {'rz_comp_url': rz_comp_url, 'rz_comp_short': rz_comp_short, 'tz_sj_detail': tz_sj_detail}
-			tz_sj_list.append(tz_sj_dict)
+			rz_comp_short = rz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/text()').extract_first()
+			rz_sj_detail_half = rz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
+			rz_sj_detail = urljoin(self.burl, rz_sj_detail_half)
+			rz_sj_dict = {'rz_comp_url': rz_comp_url, 'rz_comp_short': rz_comp_short, 'rz_sj_detail': rz_sj_detail}
+			rz_sj_list.append(rz_sj_dict)
 
-		item['tz_jg_logo'] = tz_jg_logo
-		item['tz_jg_name'] = tz_jg_name
-		item['tz_jg_short'] = tz_jg_short
-		item['tz_jg_en'] = tz_jg_en
-		item['capital_type'] = capital_type
-		item['tz_jg_property'] = tz_jg_property
-		item['tz_jg_regist_addr'] = tz_jg_regist_addr
-		item['tz_jg_create_time'] = tz_jg_create_time
-		item['tz_jg_headquarter'] = tz_jg_headquarter
-		item['tz_jg_site'] = tz_jg_site
-		item['tz_jg_invest_stage'] = tz_jg_invest_stage
-		item['tz_jg_intro'] = tz_jg_intro
-		item['tz_jg_tel'] = tz_jg_tel
-		item['tz_jg_fax'] = tz_jg_fax
-		item['tz_jg_addr'] = tz_jg_addr
-		item['tz_jg_postcode'] = tz_jg_postcode
-		item['tz_sj_url'] = tz_sj_url
-		item['tz_sj_list'] = str(tz_sj_list)
+		item['rz_gs_logo'] = rz_gs_logo
+		item['rz_gs_name'] = rz_gs_name
+		item['rz_gs_short'] = rz_gs_short
+		item['rz_gs_en'] = rz_gs_en
+		item['rz_gs_headquarter'] = rz_gs_headquarter
+		item['rz_gs_regist_addr'] = rz_gs_regist_addr
+		item['rz_gs_create_time'] = rz_gs_create_time
+		item['rz_gs_industry'] = rz_gs_industry
+		item['rz_gs_site'] = rz_gs_site
+		item['rz_gs_intro'] = rz_gs_intro
+		item['rz_gs_fax'] = rz_gs_fax
+		item['rz_gs_tel'] = rz_gs_tel
+		item['rz_gs_postcode'] = rz_gs_postcode
+		item['rz_gs_addr'] = rz_gs_addr
+		item['rz_sj_list'] = str(rz_sj_list)
 
 
 		yield item

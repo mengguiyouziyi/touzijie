@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymysql
-from tzj_scrapy.items import TzsjItem, TzjgItem
+from tzj_scrapy.items import TzsjItem, TzjgItem, RzgsItem
 
 
 class MysqlPipeline(object):
@@ -33,7 +33,8 @@ class MysqlPipeline(object):
 			print(item['detail_url'])
 		elif isinstance(item, TzjgItem):
 			sql = """insert into touzijie_touzijigou (tz_jg_detail,tz_jg_logo,tz_jg_name,tz_jg_short,tz_jg_en,capital_type,tz_jg_property,tz_jg_regist_addr,tz_jg_create_time,tz_jg_headquarter,tz_jg_site,tz_jg_invest_stage,tz_jg_intro,tz_jg_tel,tz_jg_fax,tz_jg_addr,tz_jg_postcode,team_per_list,tz_sj_url,tz_sj_list,mz_sj_url,mz_sj_list) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-			args = [item['tz_jg_detail'], item['tz_jg_logo'], item['tz_jg_name'], item['tz_jg_short'], item['tz_jg_en'], item['capital_type'],
+			args = [item['tz_jg_detail'], item['tz_jg_logo'], item['tz_jg_name'], item['tz_jg_short'], item['tz_jg_en'],
+			        item['capital_type'],
 			        item['tz_jg_property'], item['tz_jg_regist_addr'], item['tz_jg_create_time'],
 			        item['tz_jg_headquarter'], item['tz_jg_site'], item['tz_jg_invest_stage'], item['tz_jg_intro'],
 			        item['tz_jg_tel'], item['tz_jg_fax'], item['tz_jg_addr'], item['tz_jg_postcode'],
@@ -41,3 +42,13 @@ class MysqlPipeline(object):
 			self.cursor.execute(sql, args)
 			self.conn.commit()
 			print(item['tz_jg_detail'])
+		elif isinstance(item, RzgsItem):
+			sql = """insert into touzijie_touzijigou (tz_jg_detail,tz_jg_logo,tz_jg_name,tz_jg_short,tz_jg_en,capital_type,tz_jg_property,tz_jg_regist_addr,tz_jg_create_time,tz_jg_headquarter,tz_jg_intro,tz_jg_tel,tz_jg_fax,tz_jg_addr,tz_jg_postcode,tz_sj_list,mz_sj_url) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			args = [item['rz_gs_detail'], item['rz_gs_logo'], item['rz_gs_name'], item['rz_gs_short'], item['rz_gs_en'],
+			        item['rz_gs_headquarter'], item['rz_gs_regist_addr'], item['rz_gs_create_time'],
+			        item['rz_gs_industry'], item['rz_gs_site'], item['rz_gs_intro'], item['rz_gs_fax'],
+			        item['rz_gs_tel'], item['rz_gs_postcode'], item['rz_gs_addr'], item['rz_sj_list']
+			        ]
+			self.cursor.execute(sql, args)
+			self.conn.commit()
+			print(item['rz_gs_detail'])

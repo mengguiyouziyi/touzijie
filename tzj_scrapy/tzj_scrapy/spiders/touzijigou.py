@@ -4,8 +4,8 @@ from scrapy.selector import Selector
 from tzj_scrapy.items import TzjgItem
 # from tzj_scrapy.utils.get1 import get_key
 from urllib.parse import urljoin
-import io
-import sys
+# import io
+# import sys
 
 # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -97,8 +97,9 @@ class TouzishijianSpider(scrapy.Spider):
 			# invest_time = tz_sj_li_tag.xpath('./div/span/text()').extract_first()
 			rz_comp_url_half = tz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/@href').extract_first()
 			rz_comp_url = urljoin(self.burl, rz_comp_url_half)
-			rz_comp_short = tz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/@href').extract_first()
-			tz_sj_detail = tz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
+			rz_comp_short = tz_sj_li_tag.xpath('./dl/dt[@class="company"]/a/text()').extract_first()
+			tz_sj_detail_half = tz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
+			tz_sj_detail = urljoin(self.burl, tz_sj_detail_half)
 			tz_sj_dict = {'rz_comp_url': rz_comp_url, 'rz_comp_short': rz_comp_short, 'tz_sj_detail': tz_sj_detail}
 			tz_sj_list.append(tz_sj_dict)
 
@@ -109,11 +110,11 @@ class TouzishijianSpider(scrapy.Spider):
 		mz_sj_li_tags = mz_sj_tag.xpath('./div/ul/li[position()>1]')
 		mz_sj_list = []
 		for mz_sj_li_tag in mz_sj_li_tags:
-			# invest_time = tz_sj_li_tag.xpath('./div/span/text()').extract_first()
 			mz_fund_url_half = mz_sj_li_tag.xpath('./dl/dt[@class="fund"]/a/@href').extract_first()
 			mz_fund_url = urljoin(self.burl, mz_fund_url_half)
 			mz_fund_short = mz_sj_li_tag.xpath('./dl/dt[@class="fund"]/a/@href').extract_first()
-			mz_sj_detail = mz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
+			mz_sj_detail_half = mz_sj_li_tag.xpath('./dl/dt[@class="view"]/a/@href').extract_first()
+			mz_sj_detail = urljoin(self.burl, mz_sj_detail_half)
 			mz_sj_dict = {'mz_fund_url': mz_fund_url, 'mz_fund_short': mz_fund_short, 'mz_sj_detail': mz_sj_detail}
 			mz_sj_list.append(mz_sj_dict)
 
