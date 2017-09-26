@@ -43,7 +43,7 @@ class TouzishijianSpider(scrapy.Spider):
 				tz_jg_detail = li_tag.xpath('./a/@href').extract_first()
 				tz_jg_name = li_tag.xpath('./a/text()').extract_first()
 			else:
-
+				pass
 
 		rz_comp_url_half = sel.xpath('//li[@class="full"][1]/a/@href').extract_first()
 		rz_comp_url = urljoin(self.burl, rz_comp_url_half)
