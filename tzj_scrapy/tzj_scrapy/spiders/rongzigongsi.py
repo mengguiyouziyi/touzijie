@@ -49,7 +49,7 @@ class TouzishijianSpider(scrapy.Spider):
 		rz_gs_regist_addr = li_tags[1].xpath('./text()').extract_first()
 		rz_gs_create_time = li_tags[2].xpath('./text()').extract_first()
 		rz_gs_industry = li_tags[3].xpath('./text()').extract_first()
-		rz_gs_site = li_tags[4].xpath('./a/@href').extract_first()
+		rz_gs_site = li_tags[4].xpath('./a/@href').extract_first() if len(li_tags) > 4 else ''
 
 		# 融资公司简介和联系方式
 		rz_gs_intro_list = sel.xpath('//*[@id="desc"]/p//text()').extract()
