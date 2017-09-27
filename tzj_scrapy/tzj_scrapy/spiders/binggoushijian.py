@@ -38,16 +38,16 @@ class TouzishijianSpider(scrapy.Spider):
 		bg_sj_title = info_tag.xpath('./h1/text()').extract_first()
 		li_tags = info_tag.xpath('./ul/li')
 		bg_gs_detail_half = li_tags[0].xpath('./a/@href').extract_first()
-		bg_gs_detail = urljoin(self.burl, bg_gs_detail_half)
-		bg_gs_name = li_tags[0].xpath('./a/text()').extract_first()
+		bg_gs_detail = urljoin(self.burl, bg_gs_detail_half) if bg_gs_detail_half else ''
+		bg_gs_name = li_tags[0].xpath('./a/text()|./text()').extract_first()
 		bei_bg_gs_detail_half = li_tags[1].xpath('./a/@href').extract_first()
-		bei_bg_gs_detail = urljoin(self.burl, bei_bg_gs_detail_half)
-		bei_bg_gs_name = li_tags[1].xpath('./a/text()').extract_first()
+		bei_bg_gs_detail = urljoin(self.burl, bei_bg_gs_detail_half) if bei_bg_gs_detail_half else ''
+		bei_bg_gs_name = li_tags[1].xpath('./a/text()|./text()').extract_first()
 
 		bg_state = li_tags[2].xpath('./text()').extract_first()
 		industry_url_half = li_tags[3].xpath('./a/@href').extract_first()
-		industry_url = urljoin(self.burl, industry_url_half)
-		industry = li_tags[3].xpath('./a/text()').extract_first()
+		industry_url = urljoin(self.burl, industry_url_half) if industry_url_half else ''
+		industry = li_tags[3].xpath('./a/text()|./text()').extract_first()
 		# 涉及股权
 		equity_concern = li_tags[4].xpath('./text()').extract_first()
 		bg_start_time = li_tags[5].xpath('./text()').extract_first()
