@@ -68,7 +68,7 @@ class MysqlPipeline(object):
 			self.conn.commit()
 			print(item['ss_sj_detail'])
 		if isinstance(item, BgsjItem):
-			sql = """insert into touzijie_binggoushijian (bg_sj_detail,bg_sj_title,bg_gs_detail,bg_gs_name,bei_bg_gs_detail,bei_bg_gs_name,bg_state,industry_url,industry,equity_concern,bg_start_time,bg_finish_time,is_support,bg_sj_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			sql = """insert into touzijie_binggoushijian (bg_sj_detail,bg_sj_title,bg_gs_detail,bg_gs_name,bei_bg_gs_detail,bei_bg_gs_name,bg_state,industry_url,industry,equity_concern,bg_start_time,bg_finish_time,is_support,bg_sj_intro) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [
 				item['bg_sj_detail'], item['bg_sj_title'], item['bg_gs_detail'], item['bg_gs_name'],
 				item['bei_bg_gs_detail'], item['bei_bg_gs_name'], item['bg_state'], item['industry_url'],
