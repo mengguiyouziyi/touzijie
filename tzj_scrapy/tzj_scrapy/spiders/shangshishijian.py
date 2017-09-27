@@ -45,7 +45,7 @@ class TouzishijianSpider(scrapy.Spider):
 		rz_gs_industry = li_tags[1].xpath('./a/text()').extract_first()
 		tz_jg_name = li_tags[2].xpath('./text()').extract_first()
 		rz_gs_ipo_time = li_tags[3].xpath('./text()').extract_first()
-		rz_gs_issue_price = li_tags[4].xpath('./a/text()').extract_first()
+		rz_gs_issue_price = li_tags[4].xpath('./text()').extract_first()
 		rz_gs_ipo_addr_url_half = li_tags[5].xpath('./a/@href').extract_first()
 		rz_gs_ipo_addr_url = urljoin(self.burl, rz_gs_ipo_addr_url_half)
 		rz_gs_ipo_addr = li_tags[5].xpath('./a/text()').extract_first()
