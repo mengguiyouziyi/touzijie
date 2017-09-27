@@ -57,13 +57,12 @@ class MysqlPipeline(object):
 			self.conn.commit()
 			print(item['mz_sj_detail'])
 		if isinstance(item, SssjItem):
-			sql = """insert into touzijie_shangshishijian (ss_sj_detail,ss_sj_title,rz_gs_detail,rz_gs_name,rz_gs_industry_url,rz_gs_industry,rz_gs_ipo_time,tz_jg_name,rz_gs_issue_price,rz_gs_ipo_addr_url,rz_gs_ipo_addr,rz_gs_sirculation,rz_gs_stock_code,is_support) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+			sql = """insert into touzijie_shangshishijian (ss_sj_detail,ss_sj_title,rz_gs_detail,rz_gs_name,rz_gs_industry_url,rz_gs_industry,rz_gs_ipo_time,tz_jg_name,rz_gs_issue_price,rz_gs_ipo_addr_url,rz_gs_ipo_addr,rz_gs_sirculation,rz_gs_stock_code,is_support) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 			args = [
 				item['ss_sj_detail'], item['ss_sj_title'], item['rz_gs_detail'], item['rz_gs_name'],
 				item['rz_gs_industry_url'], item['rz_gs_industry'], item['rz_gs_ipo_time'], item['tz_jg_name'],
 				item['rz_gs_issue_price'], item['rz_gs_ipo_addr_url'], item['rz_gs_ipo_addr'],
-				item['rz_gs_sirculation'], item['rz_gs_stock_code'],
-				item['is_support']
+				item['rz_gs_sirculation'], item['rz_gs_stock_code'], item['is_support']
 			]
 			self.cursor.execute(sql, args)
 			self.conn.commit()
