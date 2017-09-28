@@ -28,7 +28,7 @@ class ProxyMiddleware(object):
 
 class RetryMiddleware(object):
 	def process_response(self, request, response, spider):
-		if response.status == 429:
+		if response.status in [429, 503]:
 			# print('wrong status: %s, retrying~~' % response.status, request.url)
 			retryreq = request.copy()
 			retryreq.dont_filter = True
